@@ -4,7 +4,7 @@ import { FormEventHandler } from "react";
 import Button from "../components/button";
 import Input from "../components/input";
 import Modal from "../components/modal";
-import { updateUserProfile } from "../utils/api";
+import { completeUserProfile } from "../utils/api";
 
 const CompleteProfile = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -17,7 +17,9 @@ const CompleteProfile = () => {
     try {
       const token = await getAccessTokenSilently();
 
-      await updateUserProfile(
+      console.log(token);
+
+      await completeUserProfile(
         {
           name: data.get("name"),
         },

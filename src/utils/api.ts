@@ -1,9 +1,5 @@
-import { User } from "@auth0/auth0-react";
-
-const domain = import.meta.env.VITE_AUTH0_DOMAIN;
-
-export const fetchUserMeta = (user: User, accessToken: string) =>
-  fetch(`https://${domain}/api/v2/users/${user.sub}`, {
+export const fetchUserMeta = (accessToken: string) =>
+  fetch(`${import.meta.env.VITE_ORCA_API_ENDPOINT}/users`, {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -59,9 +55,9 @@ export const regenerateUserProjectKey = (
     }
   );
 
-export const updateUserProfile = (data: unknown, accessToken: string) =>
-  fetch(`${import.meta.env.VITE_ORCA_API_ENDPOINT}/update`, {
-    method: "PATCH",
+export const completeUserProfile = (data: unknown, accessToken: string) =>
+  fetch(`${import.meta.env.VITE_ORCA_API_ENDPOINT}/users/complete-profile`, {
+    method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",

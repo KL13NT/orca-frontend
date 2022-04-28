@@ -37,10 +37,10 @@ const getUserRoutes = (user: User | undefined, meta: UserMeta | null) => {
 };
 
 function App() {
-  const { user, isLoading } = useAuth0();
-  const meta = useUserMeta();
+  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { meta, loaded } = useUserMeta();
 
-  if (isLoading) {
+  if (isLoading || (isAuthenticated && !loaded)) {
     return <div>Loading ...</div>;
   }
 

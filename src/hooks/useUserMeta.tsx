@@ -4,10 +4,9 @@ import { useEffect, useState } from "react";
 import { UserMeta } from "../interfaces";
 import { fetchUserMeta } from "../utils/api";
 
-const domain = import.meta.env.VITE_AUTH0_DOMAIN;
-
 const useUserMeta = () => {
   const { getAccessTokenSilently, isAuthenticated, user } = useAuth0();
+  const [loaded, setLoaded] = useState<boolean>(false);
   const [userMeta, setUserMeta] = useState<UserMeta | null>(null);
 
   useEffect(() => {
@@ -15,16 +14,16 @@ const useUserMeta = () => {
 
     const getUserMeta = async () => {
       try {
-        const accessToken = await getAccessTokenSilently({
-          audience: `https://${domain}/api/v2/`,
-          scope: "read:current_user",
-        });
+        const accessToken = await getAccessTokenSilently();
 
-        const metadataResponse = await fetchUserMeta(user, accessToken);
+        const metadataResponse = await fetchUserMeta(accessToken);
 
-        const { user_metadata } = await metadataResponse.json();
+        console.log(metadataResponse);
 
-        setUserMeta(user_metadata);
+        const { profile } = await metadataResponse.json();
+
+        setUserMeta(profile);
+        setLoaded(true);
       } catch (e) {
         console.log(e);
       }
@@ -33,7 +32,10 @@ const useUserMeta = () => {
     getUserMeta();
   }, [user]);
 
-  return userMeta;
+  return {
+    meta: userMeta,
+    loaded,
+  };
 };
 
 export default useUserMeta;

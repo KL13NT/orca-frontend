@@ -17,8 +17,6 @@ const CompleteProfile = () => {
     try {
       const token = await getAccessTokenSilently();
 
-      console.log(token);
-
       await completeUserProfile(
         {
           name: data.get("name"),

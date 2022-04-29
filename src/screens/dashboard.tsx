@@ -6,6 +6,7 @@ import ProjectCard from "../components/project-card";
 import { Project } from "../interfaces";
 import plusIcon from "../plus.svg";
 import {
+  createUserProject,
   deleteUserProject,
   fetchUserProjects,
   regenerateUserProjectKey,
@@ -59,12 +60,20 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
     loadProjects();
   };
 
-  const createProject = async (form: FormEvent<HTMLFormElement>) => {
+  const createProject = async (ev: FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+
     const token = await getAccessTokenSilently();
+    const data = new FormData(ev.target as HTMLFormElement);
 
-    // await regenerateUserProjectKey(projectId, token);
+    const request = {
+      name: data.get("name") as string,
+    };
 
-    loadProjects();
+    await createUserProject(request, token);
+    await loadProjects();
+
+    setProjectModalOpen(false);
   };
 
   const deleteProject = async (projectId: string) => {

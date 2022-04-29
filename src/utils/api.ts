@@ -44,9 +44,9 @@ export const regenerateUserProjectKey = (
   fetch(
     `${
       import.meta.env.VITE_ORCA_API_ENDPOINT
-    }/projects/${projectId}/regenerate`,
+    }/projects/${projectId}/refreshKey`,
     {
-      method: "POST",
+      method: "PATCH",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

@@ -3,6 +3,7 @@ import { FormEvent, FunctionComponent, useEffect, useState } from "react";
 
 import CreateProjectModal from "../components/create-project-modal";
 import ProjectCard from "../components/project-card";
+import useUserMeta from "../hooks/useUserMeta";
 import { Project } from "../interfaces";
 import plusIcon from "../plus.svg";
 import {
@@ -11,6 +12,8 @@ import {
   fetchUserProjects,
   regenerateUserProjectKey,
 } from "../utils/api";
+import { dateFormatter } from "../utils/dates";
+
 interface DashboardProps {}
 
 const colors = [
@@ -23,17 +26,11 @@ const colors = [
   "#0F0326",
 ];
 
-const dummyProjects: Project[] = new Array(6).fill({
-  created: new Date().getTime(),
-  key: "Ll0ddvaoabOEeefsd",
-  name: "My Project",
-  _id: "random id",
-});
-
 const Dashboard: FunctionComponent<DashboardProps> = () => {
   const { getAccessTokenSilently } = useAuth0();
   const [projectModalOpen, setProjectModalOpen] = useState(false);
-  const [projects, setProjects] = useState<Project[]>(dummyProjects);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const { meta } = useUserMeta();
 
   const loadProjects = async () => {
     const token = await getAccessTokenSilently();
@@ -88,10 +85,18 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
     loadProjects();
   }, []);
 
+  if (!meta) {
+    return (
+      <div className="text-center flex items-center w-full h-full">Loading</div>
+    );
+  }
+
   return (
     <div>
-      <h1 className="text-left font-extrabold text-3xl">Hello, Nabil!</h1>
-      <p>Your account has been active since May 12th, 2022.</p>
+      <h1 className="text-left font-extrabold text-3xl">Hello, {meta.name}!</h1>
+      <p>
+        Your account has been active since {dateFormatter.format(meta.created)}.
+      </p>
 
       <div className="flex flex-wrap">
         {projects.map((project, index) => (

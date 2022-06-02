@@ -1,5 +1,6 @@
 export const fetchUserMeta = (accessToken: string) =>
   fetch(`${import.meta.env.VITE_ORCA_API_ENDPOINT}/users`, {
+    mode: "cors",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -9,6 +10,7 @@ export const fetchUserMeta = (accessToken: string) =>
 
 export const fetchUserProjects = (accessToken: string) =>
   fetch(`${import.meta.env.VITE_ORCA_API_ENDPOINT}/projects`, {
+    mode: "cors",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -18,6 +20,7 @@ export const fetchUserProjects = (accessToken: string) =>
 
 export const deleteUserProject = (projectId: string, accessToken: string) =>
   fetch(`${import.meta.env.VITE_ORCA_API_ENDPOINT}/projects/${projectId}`, {
+    mode: "cors",
     method: "DELETE",
     headers: {
       Accept: "application/json",
@@ -28,6 +31,7 @@ export const deleteUserProject = (projectId: string, accessToken: string) =>
 
 export const createUserProject = (data: unknown, accessToken: string) =>
   fetch(`${import.meta.env.VITE_ORCA_API_ENDPOINT}/projects`, {
+    mode: "cors",
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -47,6 +51,7 @@ export const regenerateUserProjectKey = (
     }/projects/${projectId}/refreshKey`,
     {
       method: "PATCH",
+      mode: "cors",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -57,6 +62,7 @@ export const regenerateUserProjectKey = (
 
 export const completeUserProfile = (data: unknown, accessToken: string) =>
   fetch(`${import.meta.env.VITE_ORCA_API_ENDPOINT}/users/complete-profile`, {
+    mode: "cors",
     method: "POST",
     headers: {
       Accept: "application/json",

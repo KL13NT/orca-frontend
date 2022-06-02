@@ -55,7 +55,11 @@ function App() {
       </header>
 
       <div className="mt-8 px-12 py-4">
-        <BrowserRouter>
+        <BrowserRouter
+          basename={
+            import.meta.env.MODE === "production" ? "/orca-frontend/" : ""
+          }
+        >
           <Routes>{routes}</Routes>
         </BrowserRouter>
       </div>
